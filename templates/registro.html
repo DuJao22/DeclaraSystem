@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar - Sistema de Declarações Românticas{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-plus fa-3x text-romantic mb-3"></i>
+                    <h3>Criar Conta</h3>
+                    <p class="text-muted">Registre-se para começar a criar declarações</p>
+                </div>
+
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">
+                            <i class="fas fa-user me-1"></i>Nome Completo
+                        </label>
+                        <input type="text" class="form-control" id="nome" name="nome" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope me-1"></i>Email
+                        </label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">
+                            <i class="fas fa-lock me-1"></i>Senha
+                        </label>
+                        <input type="password" class="form-control" id="senha" name="senha" required minlength="6">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="confirmar_senha" class="form-label">
+                            <i class="fas fa-lock me-1"></i>Confirmar Senha
+                        </label>
+                        <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha" required minlength="6">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-romantic w-100 mb-3">
+                        <i class="fas fa-user-plus me-2"></i>Criar Conta
+                    </button>
+                </form>
+                
+                <div class="text-center">
+                    <p class="mb-0">
+                        Já tem uma conta? 
+                        <a href="{{ url_for('login') }}" class="text-romantic">Entre aqui</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

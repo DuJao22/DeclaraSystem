@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Início - Sistema de Declarações Românticas{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center py-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-4 text-romantic mb-4">
+                <i class="fas fa-heart me-3"></i>
+                Declarações do Coração
+            </h1>
+            <p class="lead mb-4">
+                Crie declarações românticas personalizadas para sua pessoa especial. 
+                Adicione foto, personalize com o nome dela e compartilhe através de um link único e especial.
+            </p>
+            
+            {% if not current_user.is_authenticated %}
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{{ url_for('registro') }}" class="btn btn-romantic btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>Começar Agora
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-romantic btn-lg">
+                        <i class="fas fa-sign-in-alt me-2"></i>Já tenho conta
+                    </a>
+                </div>
+            {% else %}
+                <a href="{{ url_for('criar_declaracao') }}" class="btn btn-romantic btn-lg">
+                    <i class="fas fa-plus me-2"></i>Criar Nova Declaração
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+                <i class="fas fa-camera fa-3x text-romantic"></i>
+            </div>
+            <h4>Adicione Fotos</h4>
+            <p>Faça upload da foto especial de vocês dois para tornar a declaração ainda mais personalizada e emocionante.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+                <i class="fas fa-edit fa-3x text-romantic"></i>
+            </div>
+            <h4>Personalize</h4>
+            <p>Adicione o nome da pessoa amada e crie uma declaração única que tocará profundamente o coração dela.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+                <i class="fas fa-share fa-3x text-romantic"></i>
+            </div>
+            <h4>Compartilhe</h4>
+            <p>Receba um link único e especial para compartilhar sua declaração romântica de forma privada e exclusiva.</p>
+        </div>
+    </div>
+</div>
+
+<div class="testimonial-section bg-light rounded p-5 text-center">
+    <h3 class="mb-4">
+        <i class="fas fa-quote-left me-2"></i>
+        Expresse seus sentimentos de forma única
+    </h3>
+    <p class="lead mb-0">
+        "O amor verdadeiro merece ser declarado de forma especial. Crie momentos inesquecíveis 
+        com declarações personalizadas que demonstram todo o seu carinho e dedicação."
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Painel - Sistema de Declarações Românticas{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+        <i class="fas fa-tachometer-alt me-2"></i>
+        Meu Painel
+    </h2>
+    <a href="{{ url_for('criar_declaracao') }}" class="btn btn-romantic">
+        <i class="fas fa-plus me-2"></i>Nova Declaração
+    </a>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="stats-card">
+            <h3>{{ declaracoes|length }}</h3>
+            <p class="mb-0">
+                <i class="fas fa-heart me-2"></i>
+                Declarações Criadas
+            </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-card">
+            <h3>{{ declaracoes|sum(attribute='visualizacoes') or 0 }}</h3>
+            <p class="mb-0">
+                <i class="fas fa-eye me-2"></i>
+                Total de Visualizações
+            </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-card">
+            <h3>{{ declaracoes|selectattr('visualizacoes')|list|length }}</h3>
+            <p class="mb-0">
+                <i class="fas fa-share me-2"></i>
+                Declarações Visualizadas
+            </p>
+        </div>
+    </div>
+</div>
+
+{% if declaracoes %}
+    <h3 class="mb-3">
+        <i class="fas fa-list me-2"></i>
+        Suas Declarações
+    </h3>
+    
+    {% for declaracao in declaracoes %}
+        <div class="dashboard-card">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="mb-2">
+                        <i class="fas fa-heart me-2 text-romantic"></i>
+                        Declaração para {{ declaracao.nome_destinatario }}
+                    </h5>
+                    <p class="text-muted mb-2">
+                        <i class="fas fa-calendar me-1"></i>
+                        Criada em {{ declaracao.data_criacao[:10] }}
+                        {% if declaracao.foto_filename %}
+                            <span class="ms-3">
+                                <i class="fas fa-camera me-1"></i>
+                                Com foto
+                            </span>
+                        {% endif %}
+                    </p>
+                    <p class="mb-0">
+                        <i class="fas fa-eye me-1"></i>
+                        {{ declaracao.visualizacoes }} visualizações
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="{{ url_for('ver_declaracao', link=declaracao.link_unico) }}" 
+                       class="btn btn-sm-romantic me-2" target="_blank">
+                        <i class="fas fa-external-link-alt me-1"></i>
+                        Ver Declaração
+                    </a>
+                    <button class="btn btn-outline-secondary btn-sm" 
+                            onclick="copyLink('{{ url_for('ver_declaracao', link=declaracao.link_unico, _external=True) }}')">
+                        <i class="fas fa-copy me-1"></i>
+                        Copiar Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-heart-broken fa-5x text-muted mb-4"></i>
+        <h4>Você ainda não criou nenhuma declaração</h4>
+        <p class="text-muted mb-4">Que tal começar agora e surpreender alguém especial?</p>
+        <a href="{{ url_for('criar_declaracao') }}" class="btn btn-romantic">
+            <i class="fas fa-plus me-2"></i>Criar Primeira Declaração
+        </a>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+function copyLink(url) {
+    navigator.clipboard.writeText(url).then(function() {
+        alert('Link copiado para a área de transferência!');
+    });
+}
+</script>
+{% endblock %}

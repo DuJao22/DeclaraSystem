@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Criar Declaração - Sistema de Declarações Românticas{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <i class="fas fa-heart fa-3x text-romantic mb-3"></i>
+                    <h3>Criar Nova Declaração</h3>
+                    <p class="text-muted">Personalize uma declaração especial para sua pessoa amada</p>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="mb-4">
+                        <label for="nome_destinatario" class="form-label">
+                            <i class="fas fa-user-heart me-1"></i>
+                            Nome da Pessoa Especial
+                        </label>
+                        <input type="text" class="form-control" id="nome_destinatario" 
+                               name="nome_destinatario" required 
+                               placeholder="Digite o nome da pessoa amada">
+                        <div class="form-text">Este nome aparecerá na declaração personalizada</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="foto" class="form-label">
+                            <i class="fas fa-camera me-1"></i>
+                            Foto Especial (Opcional)
+                        </label>
+                        <input type="file" class="form-control" id="foto" name="foto" 
+                               accept="image/*" onchange="previewImage(this)">
+                        <div class="form-text">Adicione uma foto linda de vocês dois para tornar a declaração ainda mais especial</div>
+                    </div>
+                    
+                    <div class="mb-4" id="preview-container" style="display: none;">
+                        <label class="form-label">Prévia da Foto:</label>
+                        <div class="text-center">
+                            <img id="image-preview" class="img-fluid rounded" style="max-height: 300px;">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 p-3 bg-light rounded">
+                        <h5 class="text-romantic mb-3">
+                            <i class="fas fa-quote-left me-2"></i>
+                            Prévia da Declaração
+                        </h5>
+                        <div id="declaracao-preview" class="romantic-message">
+                            <p>Sua declaração personalizada aparecerá aqui...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-romantic btn-lg">
+                            <i class="fas fa-heart me-2"></i>
+                            Criar Declaração de Amor
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function previewImage(input) {
+    const preview = document.getElementById('image-preview');
+    const container = document.getElementById('preview-container');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            container.style.display = 'block';
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        container.style.display = 'none';
+    }
+}
+
+let previewTimeout;
+function updatePreview() {
+    const nome = document.getElementById('nome_destinatario').value;
+    const preview = document.getElementById('declaracao-preview');
+    
+    // Limpar timeout anterior para evitar múltiplas requisições
+    clearTimeout(previewTimeout);
+    
+    if (!nome.trim()) {
+        preview.innerHTML = '<p>Digite o nome da pessoa especial para ver a prévia da declaração...</p>';
+        return;
+    }
+    
+    // Mostrar loading (sanitizando o nome)
+    const loadingElement = document.createElement('p');
+    const icon = document.createElement('i');
+    icon.className = 'fas fa-heart fa-beat text-romantic';
+    loadingElement.appendChild(icon);
+    loadingElement.appendChild(document.createTextNode(' Criando uma declaração linda e única para '));
+    loadingElement.appendChild(document.createTextNode(nome));
+    loadingElement.appendChild(document.createTextNode('...'));
+    preview.innerHTML = '';
+    preview.appendChild(loadingElement);
+    
+    // Fazer requisição com delay para evitar spam
+    previewTimeout = setTimeout(() => {
+        fetch('/api/preview-declaracao', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nome: nome })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.preview) {
+                preview.innerHTML = data.preview;
+            } else {
+                preview.innerHTML = '<p>Erro ao gerar prévia. Tente novamente.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            // Fallback seguro sem injeção de HTML
+            preview.innerHTML = `
+                <h4 class="text-romantic mb-3">💕</h4>
+                <p>Você ilumina minha vida como as estrelas iluminam a noite. 🌟</p>
+                <p>Meu amor por você é infinito e verdadeiro. 💝</p>
+                <p class="text-end"><strong>Com todo meu amor ❤️</strong></p>
+            `;
+            // Adicionar o nome de forma segura
+            const titleElement = preview.querySelector('h4');
+            if (titleElement) {
+                titleElement.insertBefore(document.createTextNode(nome + ' '), titleElement.firstChild);
+            }
+        });
+    }, 1000); // Delay de 1 segundo para evitar muitas requisições
+}
+
+document.getElementById('nome_destinatario').addEventListener('input', updatePreview);
+</script>
+{% endblock %}

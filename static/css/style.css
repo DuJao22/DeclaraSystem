@@ -1,0 +1,518 @@
+:root {
+    --romantic-pink: #ff6b8a;
+    --romantic-red: #ff4757;
+    --romantic-purple: #a742ff;
+    --romantic-light: #ffe0e6;
+    --romantic-dark: #2c3e50;
+    --romantic-gold: #ffd700;
+    --romantic-rose: #ff69b4;
+    --romantic-gradient: linear-gradient(135deg, var(--romantic-pink), var(--romantic-purple));
+    --romantic-heart-gradient: linear-gradient(45deg, #ff6b8a, #ff1744, #e91e63);
+}
+
+/* Animações Românticas */
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes floatHeart {
+    0% { 
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { 
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% { 
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% { 
+        transform: scale(1) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 5px rgba(255, 107, 138, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 107, 138, 0.8), 0 0 30px rgba(255, 107, 138, 0.6); }
+    100% { box-shadow: 0 0 5px rgba(255, 107, 138, 0.5); }
+}
+
+@keyframes passionateGlow {
+    0% { 
+        box-shadow: 0 0 10px rgba(255, 107, 138, 0.6), 0 0 20px rgba(255, 23, 68, 0.4); 
+        transform: scale(1);
+    }
+    25% { 
+        box-shadow: 0 0 20px rgba(255, 107, 138, 0.8), 0 0 40px rgba(255, 23, 68, 0.6), 0 0 60px rgba(233, 30, 99, 0.4); 
+        transform: scale(1.02);
+    }
+    50% { 
+        box-shadow: 0 0 30px rgba(255, 107, 138, 1), 0 0 60px rgba(255, 23, 68, 0.8), 0 0 80px rgba(233, 30, 99, 0.6); 
+        transform: scale(1.05);
+    }
+    75% { 
+        box-shadow: 0 0 20px rgba(255, 107, 138, 0.8), 0 0 40px rgba(255, 23, 68, 0.6), 0 0 60px rgba(233, 30, 99, 0.4); 
+        transform: scale(1.02);
+    }
+    100% { 
+        box-shadow: 0 0 10px rgba(255, 107, 138, 0.6), 0 0 20px rgba(255, 23, 68, 0.4); 
+        transform: scale(1);
+    }
+}
+
+@keyframes loveFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(1deg); }
+    50% { transform: translateY(-10px) rotate(0deg); }
+    75% { transform: translateY(-5px) rotate(-1deg); }
+}
+
+@keyframes romanticShimmer {
+    0% { filter: brightness(1) saturate(1); }
+    50% { filter: brightness(1.2) saturate(1.3) hue-rotate(10deg); }
+    100% { filter: brightness(1) saturate(1); }
+}
+
+@keyframes slideInFromHeart {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Corações flutuantes de fundo */
+.floating-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.floating-heart {
+    position: absolute;
+    font-size: 20px;
+    color: rgba(255, 107, 138, 0.6);
+    animation: floatHeart 6s infinite linear;
+    pointer-events: none;
+}
+
+.floating-heart:nth-child(1) { left: 10%; animation-delay: -1s; font-size: 16px; }
+.floating-heart:nth-child(2) { left: 20%; animation-delay: -2s; font-size: 24px; }
+.floating-heart:nth-child(3) { left: 30%; animation-delay: -3s; font-size: 18px; }
+.floating-heart:nth-child(4) { left: 40%; animation-delay: -4s; font-size: 22px; }
+.floating-heart:nth-child(5) { left: 50%; animation-delay: -5s; font-size: 20px; }
+.floating-heart:nth-child(6) { left: 60%; animation-delay: -6s; font-size: 16px; }
+.floating-heart:nth-child(7) { left: 70%; animation-delay: -1.5s; font-size: 24px; }
+.floating-heart:nth-child(8) { left: 80%; animation-delay: -2.5s; font-size: 18px; }
+.floating-heart:nth-child(9) { left: 90%; animation-delay: -3.5s; font-size: 20px; }
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 50%, #e1bee7 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hearts" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><text x="10" y="15" text-anchor="middle" fill="rgba(255,182,193,0.1)" font-size="12">♥</text></pattern></defs><rect width="100" height="100" fill="url(%23hearts)"/></svg>');
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bg-romantic {
+    background: var(--romantic-gradient) !important;
+}
+
+.text-romantic {
+    color: var(--romantic-pink) !important;
+}
+
+.btn-romantic {
+    background: var(--romantic-heart-gradient);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 15px 35px;
+    border-radius: 30px;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 25px rgba(255, 107, 138, 0.4);
+    position: relative;
+    overflow: hidden;
+    animation: pulseGlow 3s infinite;
+}
+
+.btn-romantic::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn-romantic:hover::before {
+    left: 100%;
+}
+
+.btn-romantic:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(255, 107, 138, 0.6);
+    color: white;
+    animation: heartbeat 0.6s ease-in-out;
+}
+
+.btn-outline-romantic {
+    border: 2px solid var(--romantic-pink);
+    color: var(--romantic-pink);
+    background: transparent;
+    font-weight: 500;
+    padding: 10px 30px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-romantic:hover {
+    background: var(--romantic-gradient);
+    border-color: transparent;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, rgba(255, 107, 138, 0.1), rgba(167, 66, 255, 0.1));
+    border-radius: 20px;
+    margin-bottom: 3rem;
+}
+
+.feature-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.9));
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    height: 100%;
+    border: 2px solid rgba(255, 107, 138, 0.2);
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 1.5s ease-out both;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(255, 107, 138, 0.3);
+    border-color: rgba(255, 107, 138, 0.5);
+    animation: pulseGlow 1s ease-in-out;
+}
+
+.feature-icon i {
+    animation: heartbeat 2s infinite;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--romantic-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--romantic-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 138, 0.25);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.testimonial-section {
+    background: white !important;
+    border: 1px solid var(--romantic-light);
+}
+
+.declaracao-page {
+    background: linear-gradient(135deg, #ff6b8a 0%, #a742ff 50%, #ff4757 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+    position: relative;
+    animation: fadeInUp 1s ease-out;
+}
+
+.declaracao-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 107, 138, 0.3);
+    overflow: hidden;
+    max-width: 700px;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    animation: pulseGlow 3s infinite, slideInFromHeart 1.2s ease-out;
+    position: relative;
+    z-index: 10;
+}
+
+.declaracao-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 107, 138, 0.1), transparent);
+    animation: sparkle 4s infinite;
+    pointer-events: none;
+}
+
+.declaracao-header {
+    background: var(--romantic-heart-gradient);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.declaracao-header::before {
+    content: '💕';
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 2rem;
+    animation: heartbeat 2s infinite;
+}
+
+.declaracao-header::after {
+    content: '💕';
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    animation: heartbeat 2s infinite 1s;
+}
+
+.declaracao-header h1 {
+    animation: fadeInUp 1.5s ease-out 0.5s both;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.declaracao-content {
+    padding: 3rem 2rem;
+    position: relative;
+}
+
+.declaracao-foto {
+    max-width: 100%;
+    height: auto;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    border: 5px solid rgba(255, 107, 138, 0.5);
+    animation: 
+        fadeInUp 1.8s ease-out 1s both, 
+        passionateGlow 3s infinite 2s,
+        loveFloat 6s ease-in-out infinite 3s,
+        romanticShimmer 4s ease-in-out infinite 2.5s;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.declaracao-foto::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 107, 138, 0.2), transparent);
+    animation: sparkle 3s infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.declaracao-foto::after {
+    content: '💕';
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    color: rgba(255, 107, 138, 0.8);
+    animation: heartbeat 2s infinite;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.declaracao-foto:hover {
+    transform: scale(1.08) rotate(2deg);
+    border-color: rgba(255, 23, 68, 0.8);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(255, 107, 138, 0.8),
+        0 0 60px rgba(255, 23, 68, 0.6);
+    animation: 
+        fadeInUp 1.8s ease-out 1s both, 
+        passionateGlow 1.5s infinite,
+        loveFloat 2s ease-in-out infinite,
+        romanticShimmer 2s ease-in-out infinite,
+        heartbeat 1s ease-in-out infinite;
+}
+
+.romantic-message {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--romantic-dark);
+    text-align: center;
+    font-style: italic;
+    margin: 2rem 0;
+    position: relative;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+/* Ajustes responsivos para texto */
+@media (max-width: 768px) {
+    .romantic-message {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin: 1.5rem 0;
+    }
+    
+    .romantic-message h2 {
+        font-size: 2rem !important;
+    }
+}
+
+.romantic-message h2 {
+    font-size: 3rem;
+    background: var(--romantic-heart-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: heartbeat 2s infinite, fadeInUp 2s ease-out 1.2s both;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.romantic-message p {
+    animation: fadeInUp 1.5s ease-out both;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.romantic-message p:nth-child(2) { animation-delay: 1.4s; }
+.romantic-message p:nth-child(3) { animation-delay: 1.6s; }
+.romantic-message p:nth-child(4) { animation-delay: 1.8s; }
+.romantic-message p:nth-child(5) { animation-delay: 2s; }
+.romantic-message p:nth-child(6) { animation-delay: 2.2s; }
+
+.romantic-message .text-center h4 {
+    animation: heartbeat 1.5s infinite, fadeInUp 2.5s ease-out both;
+    background: var(--romantic-heart-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+}
+
+.stats-card {
+    background: var(--romantic-gradient);
+    color: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.btn-sm-romantic {
+    background: var(--romantic-pink);
+    border: none;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.875rem;
+}
+
+.btn-sm-romantic:hover {
+    background: var(--romantic-red);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 1rem !important;
+    }
+    
+    .declaracao-card {
+        margin: 1rem;
+    }
+    
+    .feature-card {
+        margin-bottom: 2rem;
+    }
+}
